@@ -1,2 +1,102 @@
 # RevealFileLocationHoudini
 REVEAL FILE LOCATION - HOUDINI TOOL SUITE ==========================================  Ported from the Nuke "Reveal File Location" plugin, then extended into a small pipeline toolkit: reveal-in-browser, copy path, and missing-file highlighting, available both as shelf buttons and a node right-click menu.
+
+# HOUDINI  20.5 20.1 22
+
+REVEAL FILE LOCATION - HOUDINI TOOL SUITE
+==========================================
+
+Ported from the Nuke "Reveal File Location" plugin, then extended into a
+small pipeline toolkit: reveal-in-browser, copy path, and missing-file
+highlighting, available both as shelf buttons and a node right-click menu.
+
+Compatible with Houdini 18.5+ (JSON packages with automatic
+HOUDINI_PACKAGE_DIR). The shelf/menu scripts themselves work in any
+Houdini with Python shelf-script support.
+
+OPTION A - PACKAGE INSTALL (RECOMMENDED)
+-----------------------------------------
+1. Close Houdini.
+2. Copy the whole "RevealFileLocationHoudini" folder anywhere you like,
+   e.g.:
+       Windows: C:\Users\YOUR_NAME\Documents\HoudiniTools\RevealFileLocationHoudini
+       macOS:   /Users/YOUR_NAME/HoudiniTools/RevealFileLocationHoudini
+       Linux:   /home/YOUR_NAME/HoudiniTools/RevealFileLocationHoudini
+3. Copy RevealFileLocation.json into your Houdini packages directory:
+       Windows: C:\Users\YOUR_NAME\Documents\houdiniXX.X\packages\
+       macOS:   /Users/YOUR_NAME/Library/Preferences/houdini/XX.X/packages/
+       Linux:   /home/YOUR_NAME/houdiniXX.X/packages/
+   (Create the "packages" folder if it doesn't exist.)
+4. Edit the copied RevealFileLocation.json so "HOUDINI_PACKAGE_DIR" resolves
+   correctly - on Houdini versions that predate automatic package-dir
+   detection, replace "$HOUDINI_PACKAGE_DIR" with the literal absolute path
+   to the RevealFileLocationHoudini folder from step 2.
+5. Start Houdini. A new "Reveal File Location" shelf appears with five
+   tools, and the node right-click menu gains three matching entries.
+
+OPTION B - MANUAL INSTALL (NO PACKAGE FILE)
+--------------------------------------------
+1. Copy everything from the "toolbar" folder (reveal_file_location.py and
+   RevealFileLocation.shelf) into your Houdini user preferences toolbar
+   folder:
+       Windows: C:\Users\YOUR_NAME\Documents\houdiniXX.X\toolbar\
+       macOS:   /Users/YOUR_NAME/Library/Preferences/houdini/XX.X/toolbar\
+       Linux:   /home/YOUR_NAME/houdiniXX.X/toolbar/
+2. Copy OPmenu.xml (from the package root) directly into the Houdini
+   preferences folder above "toolbar", e.g.:
+       Windows: C:\Users\YOUR_NAME\Documents\houdiniXX.X\OPmenu.xml
+       macOS:   /Users/YOUR_NAME/Library/Preferences/houdini/XX.X/OPmenu.xml
+       Linux:   /home/YOUR_NAME/houdiniXX.X/OPmenu.xml
+   If you already have an OPmenu.xml, merge the <scriptItem> entries in
+   rather than overwriting the file.
+3. Restart Houdini.
+
+TOOLS INCLUDED
+--------------
+1. Reveal File Location
+     Opens the OS file browser (Explorer/Finder/xdg-open) at the resolved
+     file for the selected node(s), one window per unique folder.
+2. Copy File Path
+     Copies the resolved path (current frame, variables expanded) of the
+     selected node(s) to the clipboard.
+3. Copy Raw File Path
+     Copies the unresolved parm string (e.g. still containing $F4 or ####)
+     to the clipboard. Shelf only - not in the right-click menu, to keep
+     the context menu short; use the shelf button for this one.
+4. Highlight Missing Files
+     Colors any selected, file-backed node red if its referenced file or
+     sequence frame does not exist on disk, and reports which nodes were
+     affected.
+5. Clear File Highlight
+     Resets node color back to the node type's default. Shelf only.
+
+The right-click menu only shows these entries when the node under the
+cursor actually has a recognizable file parameter, so it stays out of the
+way on nodes where it doesn't apply.
+
+OUTPUT-NODE AWARENESS
+----------------------
+File-parm detection first checks a per-node-type table (Mantra "ifd",
+Karma, OpenGL ROP, Alembic ROP, Geometry ROP, DOP I/O, COMP, File SOP,
+Alembic Archive), then falls back to common generic names, then to
+scanning for any parm whose template is typed as a File Reference. Add
+more entries to _NODE_TYPE_FILE_PARMS in reveal_file_location.py as your
+pipeline needs additional node types recognized.
+
+HOW TO USE
+----------
+1. Select a Read/File SOP, ROP, COP, or any node with a file-reference
+   parameter (or right-click directly on one).
+2. Use the shelf button or right-click menu entry you need.
+
+Frame-token support: $F / $F4 / $FF (Houdini), #### and %04d
+(printf/Nuke-style), and relative paths resolved against $HIP.
+
+UNINSTALL
+---------
+Option A: delete RevealFileLocation.json from your packages folder (and
+the RevealFileLocationHoudini folder if you no longer want it).
+Option B: delete reveal_file_location.py and RevealFileLocation.shelf from
+your Houdini toolbar folder, and remove the reveal_file_location.*
+<scriptItem> entries from OPmenu.xml (or delete the whole file if you
+added nothing else to it).
