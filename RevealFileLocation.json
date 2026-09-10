@@ -1,0 +1,8 @@
+{
+    "env": [
+        {
+            "REVEALFILELOCATION": "$HOUDINI_PACKAGE_DIR"
+        }
+    ],
+    "path": "$REVEALFILELOCATION"
+}

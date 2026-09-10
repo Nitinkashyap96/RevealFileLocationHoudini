@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menuDocument>
+  <menu>
+    <scriptItem id="reveal_file_location.reveal">
+      <label>Reveal File Location</label>
+      <context>
+        <expression>
+          <![CDATA[
+try:
+    import sys, os, hou
+    _p = hou.findFile("toolbar/reveal_file_location.py")
+    _d = os.path.dirname(_p)
+    if _d not in sys.path:
+        sys.path.insert(0, _d)
+    import reveal_file_location
+    return reveal_file_location._find_file_parm(kwargs["node"]) is not None
+except Exception:
+    return False
+]]>
+        </expression>
+      </context>
+      <scriptCode>
+        <![CDATA[
+import sys, os, hou
+_p = hou.findFile("toolbar/reveal_file_location.py")
+_d = os.path.dirname(_p)
+if _d not in sys.path:
+    sys.path.insert(0, _d)
+import reveal_file_location
+reveal_file_location.reveal_selected_file_locations()
+]]>
+      </scriptCode>
+    </scriptItem>
+
+    <scriptItem id="reveal_file_location.copy_path">
+      <label>Copy File Path</label>
+      <context>
+        <expression>
+          <![CDATA[
+try:
+    import sys, os, hou
+    _p = hou.findFile("toolbar/reveal_file_location.py")
+    _d = os.path.dirname(_p)
+    if _d not in sys.path:
+        sys.path.insert(0, _d)
+    import reveal_file_location
+    return reveal_file_location._find_file_parm(kwargs["node"]) is not None
+except Exception:
+    return False
+]]>
+        </expression>
+      </context>
+      <scriptCode>
+        <![CDATA[
+import sys, os, hou
+_p = hou.findFile("toolbar/reveal_file_location.py")
+_d = os.path.dirname(_p)
+if _d not in sys.path:
+    sys.path.insert(0, _d)
+import reveal_file_location
+reveal_file_location.copy_selected_file_paths(resolved=True)
+]]>
+      </scriptCode>
+    </scriptItem>
+
+    <scriptItem id="reveal_file_location.highlight_missing">
+      <label>Highlight If File Missing</label>
+      <context>
+        <expression>
+          <![CDATA[
+try:
+    import sys, os, hou
+    _p = hou.findFile("toolbar/reveal_file_location.py")
+    _d = os.path.dirname(_p)
+    if _d not in sys.path:
+        sys.path.insert(0, _d)
+    import reveal_file_location
+    return reveal_file_location._find_file_parm(kwargs["node"]) is not None
+except Exception:
+    return False
+]]>
+        </expression>
+      </context>
+      <scriptCode>
+        <![CDATA[
+import sys, os, hou
+_p = hou.findFile("toolbar/reveal_file_location.py")
+_d = os.path.dirname(_p)
+if _d not in sys.path:
+    sys.path.insert(0, _d)
+import reveal_file_location
+reveal_file_location.highlight_missing_files()
+]]>
+      </scriptCode>
+    </scriptItem>
+  </menu>
+</menuDocument>

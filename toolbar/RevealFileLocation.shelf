@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <toolshelf name="reveal_file_location" label="Reveal File Location">
+    <memberTool name="reveal_file_location"/>
+    <memberTool name="reveal_copy_path"/>
+    <memberTool name="reveal_copy_path_raw"/>
+    <memberTool name="reveal_highlight_missing"/>
+    <memberTool name="reveal_clear_highlight"/>
+  </toolshelf>
+
+  <tool name="reveal_file_location" label="Reveal File Location"
+        icon="BUTTONS_folder">
+    <helpText><![CDATA[Reveal the file referenced by the selected node(s)
+in the operating system's file browser (Explorer / Finder / xdg-open).
+
+Select a Read/File SOP, ROP, COP, or any node with a file-reference
+parameter, then run this tool.]]></helpText>
+    <script scriptType="python"><![CDATA[
+import sys, os, hou
+_p = hou.findFile("toolbar/reveal_file_location.py")
+_d = os.path.dirname(_p)
+if _d not in sys.path:
+    sys.path.insert(0, _d)
+import reveal_file_location
+reveal_file_location.reveal_selected_file_locations()
+]]></script>
+  </tool>
+
+  <tool name="reveal_copy_path" label="Copy File Path"
+        icon="BUTTONS_copy">
+    <helpText><![CDATA[Copy the resolved file path (current frame, all
+variables expanded) of the selected node(s) to the clipboard.]]></helpText>
+    <script scriptType="python"><![CDATA[
+import sys, os, hou
+_p = hou.findFile("toolbar/reveal_file_location.py")
+_d = os.path.dirname(_p)
+if _d not in sys.path:
+    sys.path.insert(0, _d)
+import reveal_file_location
+reveal_file_location.copy_selected_file_paths(resolved=True)
+]]></script>
+  </tool>
+
+  <tool name="reveal_copy_path_raw" label="Copy Raw File Path"
+        icon="BUTTONS_copy">
+    <helpText><![CDATA[Copy the unresolved file path (with $F4 / ####
+tokens and variables intact) of the selected node(s) to the clipboard.]]></helpText>
+    <script scriptType="python"><![CDATA[
+import sys, os, hou
+_p = hou.findFile("toolbar/reveal_file_location.py")
+_d = os.path.dirname(_p)
+if _d not in sys.path:
+    sys.path.insert(0, _d)
+import reveal_file_location
+reveal_file_location.copy_selected_file_paths(resolved=False)
+]]></script>
+  </tool>
+
+  <tool name="reveal_highlight_missing" label="Highlight Missing Files"
+        icon="BUTTONS_alert">
+    <helpText><![CDATA[Color selected nodes red if their referenced file
+or sequence does not exist on disk.]]></helpText>
+    <script scriptType="python"><![CDATA[
+import sys, os, hou
+_p = hou.findFile("toolbar/reveal_file_location.py")
+_d = os.path.dirname(_p)
+if _d not in sys.path:
+    sys.path.insert(0, _d)
+import reveal_file_location
+reveal_file_location.highlight_missing_files()
+]]></script>
+  </tool>
+
+  <tool name="reveal_clear_highlight" label="Clear File Highlight"
+        icon="BUTTONS_reload">
+    <helpText><![CDATA[Reset the color of the selected nodes back to
+their node type's default.]]></helpText>
+    <script scriptType="python"><![CDATA[
+import sys, os, hou
+_p = hou.findFile("toolbar/reveal_file_location.py")
+_d = os.path.dirname(_p)
+if _d not in sys.path:
+    sys.path.insert(0, _d)
+import reveal_file_location
+reveal_file_location.clear_missing_file_highlight()
+]]></script>
+  </tool>
+</shelfDocument>

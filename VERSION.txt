@@ -1,0 +1,38 @@
+Reveal File Location (Houdini port) 2.1
+
+2.1 - Bugfix: ModuleNotFoundError on shelf tools and context menu.
+    - Houdini does not reliably auto-add a package's "toolbar" folder to
+      sys.path just because it's on HOUDINI_PATH. Every shelf script and
+      OPmenu.xml scriptItem now explicitly locates
+      reveal_file_location.py via hou.findFile("toolbar/reveal_file_location.py")
+      (which searches HOUDINI_PATH regardless of package vs. manual
+      install) and inserts its directory into sys.path before importing.
+      This fixes "ModuleNotFoundError: No module named
+      'reveal_file_location'" seen on both the shelf buttons and the
+      right-click menu.
+
+1.0 - Initial Houdini port of the Nuke plugin.
+    - Re-implemented file-parm lookup using Houdini's hou.parm/parmTemplate
+      API (common file-parm names, falling back to any File-Reference-typed
+      string parm).
+    - Frame-token handling covers Houdini's $F / $F4 / $FF tokens in
+      addition to the original #### / %04d style tokens.
+    - Cross-platform reveal-in-file-browser behavior (Explorer/Finder/
+      xdg-open) carried over unchanged.
+    - Distributed as a Houdini shelf tool.
+
+2.0 - Pipeline feature pass.
+    - Added per-node-type file-parm table for output-node awareness
+      (Mantra, Karma, OpenGL ROP, Alembic ROP, Geometry ROP, DOP, COMP,
+      File SOP, Alembic Archive) so the right output parm is picked
+      instead of guessing from generic names alone.
+    - Added "Copy File Path" / "Copy Raw File Path" (resolved vs.
+      unexpanded, clipboard via hou.ui.copyTextToClipboard).
+    - Added "Highlight Missing Files" / "Clear File Highlight" to flag
+      file-backed nodes whose referenced file/sequence frame does not
+      exist on disk, using node color.
+    - Added a node right-click (OPmenu.xml) context menu with Reveal /
+      Copy Path / Highlight Missing entries, shown only on nodes that
+      actually have a recognizable file parameter.
+    - Distributed as a JSON package (recommended) or manual toolbar +
+      OPmenu.xml install.
